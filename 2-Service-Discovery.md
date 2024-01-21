@@ -101,7 +101,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
 ```
 
-## 넷플리스 Feigh 클라이언트로 서비스 호출
+## 넷플리스 Feign 클라이언트로 서비스 호출
 
 ### 의존성
 - OpenFeign
