@@ -21,8 +21,8 @@ public class ConfigServerApplication {
 }
 ```
 
-## 스프링 클라우드 컨피그 서버에 파일 시스템 사용
-### application.yml 설정
+### 스프링 클라우드 컨피그 서버에 파일 시스템 사용
+#### application.yml 설정
 ```yml
 server:
   port: 8888
@@ -39,8 +39,8 @@ spring:
           search-locations: classpath:/config    # 구성파일이 저장된 검색 위치를 설정한다.
 ```
 
-## 스프링 클라우드 컨피그 서버에 github 사용
-### application.yml 설정
+### 스프링 클라우드 컨피그 서버에 github 사용
+#### application.yml 설정
 ```yml
 server:
   port: 8888
@@ -77,3 +77,48 @@ spring.datasource.username=root
 spring.datasource.password=1234
 ```
 
+## 스프링 클라우드 컨피그와 스프링 부트 클라이언트 통합
+### 의존성
+- Spring Boot DevTools
+- Spring Configuration Processor
+- Spring Boot Actuator
+- Spring Data JPA
+- MySQL Driver
+- Config Client
+- Spring Web
+
+### 부트스트랩 클래스 설정
+```java
+@SpringBootApplication
+public class DeptServiceApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(DeptServiceApplication.class, args);
+	}
+
+}
+
+```
+
+### application.yml 설정
+```yml
+server:
+  port: 8080
+  
+spring:
+  application:
+    name: dept-service	# 스프링 애플리케이션 이름이다. 구성파일의 dept-service-dev.properties 과 매칭된다.
+  profiles:
+    active: dev		# 스프링 애플리케이션 프로파일이다. 구성파일의 dept-service-dev.properties 과 매칭된다.
+  config:
+    import: optional:configserver:http://localhost:8888		# 스프링 컨피그 서버의 위치를 지정한다.
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+```
+  
